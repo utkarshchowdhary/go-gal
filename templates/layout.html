@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/css/app.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=Damion&display=swap"
+      rel="stylesheet"
+    />
+    <title>Go Gal</title>
+  </head>
+  <body>
+    <header>
+      <div class="content-container">
+        <div class="content">
+          <a href="/" class="title">Go Gal</a>
+          <div class="btn-container">
+            {{if .CurrentUser}}
+            <a href="/account" class="btn">Account</a>
+            <a href="/sign-out" class="btn">Sign out</a>
+            {{else}}
+            <a href="/sign-in" class="btn">Sign in</a>
+            <a href="/sign-up" class="btn">Sign up</a>
+            {{end}}
+          </div>
+        </div>
+      </div>
+    </header>
+    {{if .Flash}}
+    <div class="flash">
+      <p>{{.Flash}}</p>
+    </div>
+    {{end}} {{yield}}
+  </body>
+</html>

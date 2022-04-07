@@ -1,0 +1,33 @@
+{{define "sessions/new"}}
+<section class="form-container">
+  <div class="content-container">
+    <div class="content">
+      <h3 class="heading">WELCOME TO THE WEBSITE</h3>
+      <h1 class="title">Sign in to your Account</h1>
+      <h3 class="heading">
+        Doesn't have an account yet? <a href="/sign-up">Sign up</a>
+      </h3>
+      <form action="/sign-in" method="post">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value="{{.User.Username}}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" />
+        </div>
+        {{if .Error}}
+        <p class="error">{{.Error}}</p>
+        {{end}}
+        <input type="submit" value="Sign in" class="btn" />
+        <input type="hidden" name="redir" value="{{.Redir}}" />
+      </form>
+    </div>
+  </div>
+</section>
+{{end}}

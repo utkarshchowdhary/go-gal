@@ -1,0 +1,35 @@
+{{define "users/new"}}
+<section class="form-container">
+  <div class="content-container">
+    <div class="content">
+      <h3 class="heading">START FOR FREE</h3>
+      <h1 class="title">Sign up to Go Gal</h1>
+      <h3 class="heading">Already a member? <a href="/sign-in">Sign in</a></h3>
+      <form action="/sign-up" method="post">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value="{{.User.Username}}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" value="{{.User.Email}}" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" />
+        </div>
+        {{if .Error}}
+        <p class="error">{{.Error}}</p>
+        {{end}}
+        <input type="submit" value="Create an account" class="btn" />
+        <input type="hidden" name="redir" value="{{.Redir}}" />
+      </form>
+    </div>
+  </div>
+</section>
+{{end}}
