@@ -84,7 +84,7 @@ header .content .btn-container .btn:hover {
   background-color: var(--light-tan);
 }
 
-header .content .btn-container .btn:first-child {
+header .content .btn-container .btn:not(:last-child) {
   margin-right: 1rem;
 }
 
@@ -157,4 +157,13 @@ header .content .btn-container .btn:first-child {
   border: 0.1rem solid var(--red);
   border-radius: 0.6rem;
   padding: 0.5rem;
+}
+
+input[type="file"]::file-selector-button {
+  font: inherit;
+  text-transform: capitalize;
+  background-color: var(--light-turquoise);
+  border: 1px solid var(--turquoise);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.6rem;
 }

@@ -1,0 +1,32 @@
+{{define "images/new"}}
+<section class="form-container">
+  <div class="content-container">
+    <div class="content">
+      <h1 class="title">Add Images</h1>
+      <form action="/images/new" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="url">Image Url</label>
+          <input type="text" id="url" name="url" value="{{.ImageUrl}}" />
+        </div>
+        <div class="form-group">
+          <label for="file">Browse</label>
+          <input type="file" id="file" name="file" />
+        </div>
+        <div class="form-group">
+          <label for="description">Brief Description</label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            value="{{.Image.Description}}"
+          />
+        </div>
+        {{if .Error}}
+        <p class="error">{{.Error}}</p>
+        {{end}}
+        <input type="submit" value="Add" class="btn" />
+      </form>
+    </div>
+  </div>
+</section>
+{{end}}

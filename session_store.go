@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 )
 
 type SessionStore interface {
@@ -20,15 +20,14 @@ type FileSessionStore struct {
 
 var globalSessionStore SessionStore
 
-func init() {
-	store, err := NewFileSessionStore("./data/sessions.json")
-	if err != nil {
-		panic(fmt.Errorf("Error creating session store: %s", err))
-	}
-	globalSessionStore = store
-}
-
 func NewFileSessionStore(filename string) (*FileSessionStore, error) {
+	err := os.Mkdir(filepath.Dir(filename), 0660)
+	if err != nil {
+		if !os.IsExist(err) {
+			return nil, err
+		}
+	}
+
 	store := &FileSessionStore{
 		filename,
 		map[string]Session{},

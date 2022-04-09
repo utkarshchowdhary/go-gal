@@ -56,7 +56,7 @@ func NewUser(username, email, password string) (User, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), hashCost)
 
 	user.HashedPassword = string(hashedPassword)
-	user.Id = GenerateID("usr", userIdLength)
+	user.Id = GenerateId("usr", userIdLength)
 
 	return user, err
 }

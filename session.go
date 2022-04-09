@@ -24,7 +24,7 @@ func (session Session) Expired() bool {
 func NewSession(w http.ResponseWriter) *Session {
 	expiry := time.Now().Add(sessionLength)
 	session := &Session{
-		Id:     GenerateID("sess", sessionIdLength),
+		Id:     GenerateId("sess", sessionIdLength),
 		Expiry: expiry,
 	}
 	cookie := http.Cookie{

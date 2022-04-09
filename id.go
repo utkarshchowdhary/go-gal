@@ -9,7 +9,7 @@ const idSource = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
 
 const idSourceLen = byte(len(idSource))
 
-func GenerateID(prefix string, length int) string {
+func GenerateId(prefix string, length int) string {
 	id := make([]byte, length)
 
 	rand.Read(id)

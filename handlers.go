@@ -131,3 +131,70 @@ func HandleUserUpdate(w http.ResponseWriter, r *http.Request, _ httprouter.Param
 
 	http.Redirect(w, r, "/account?flash=Your+changes+have+been+successfully+saved", http.StatusFound)
 }
+
+func HandleImageNew(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	RenderTemplate(w, r, "images/new", nil)
+}
+
+func HandleImageCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	if r.FormValue("url") != "" {
+		HandleImageCreateFromURL(w, r)
+		return
+	}
+
+	HandleImageCreateFromFile(w, r)
+}
+
+func HandleImageCreateFromURL(w http.ResponseWriter, r *http.Request) {
+	user := RequestUser(r)
+	image := NewImage(user)
+	image.Description = r.FormValue("description")
+
+	err := image.CreateFromUrl(r.FormValue("url"))
+	if err != nil {
+		if IsValidationError(err) {
+			RenderTemplate(w, r, "images/new", map[string]interface{}{
+				"Error":    err,
+				"ImageUrl": r.FormValue("url"),
+				"Image":    image,
+			})
+			return
+		}
+		panic(err)
+	}
+
+	http.Redirect(w, r, "/?flash=Image+uploaded+successfully", http.StatusFound)
+}
+
+func HandleImageCreateFromFile(w http.ResponseWriter, r *http.Request) {
+	user := RequestUser(r)
+	image := NewImage(user)
+	image.Description = r.FormValue("description")
+
+	file, headers, err := r.FormFile("file")
+	if err != nil {
+		if err == http.ErrMissingFile {
+			RenderTemplate(w, r, "images/new", map[string]interface{}{
+				"Error": errNoImage,
+				"Image": image,
+			})
+			return
+		}
+		panic(err)
+	}
+	defer file.Close()
+
+	err = image.CreateFromFile(file, headers)
+	if err != nil {
+		if IsValidationError(err) {
+			RenderTemplate(w, r, "images/new", map[string]interface{}{
+				"Error": err,
+				"Image": image,
+			})
+			return
+		}
+		panic(err)
+	}
+
+	http.Redirect(w, r, "/?flash=Image+uploaded+successfully", http.StatusFound)
+}

@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -22,15 +22,14 @@ type FileUserStore struct {
 
 var globalUserStore UserStore
 
-func init() {
-	store, err := NewFileUserStore("./data/users.json")
-	if err != nil {
-		panic(fmt.Errorf("Error creating user store: %s", err))
-	}
-	globalUserStore = store
-}
-
 func NewFileUserStore(filename string) (*FileUserStore, error) {
+	err := os.Mkdir(filepath.Dir(filename), 0660)
+	if err != nil {
+		if !os.IsExist(err) {
+			return nil, err
+		}
+	}
+
 	store := &FileUserStore{
 		filename,
 		map[string]User{},
