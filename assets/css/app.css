@@ -284,9 +284,12 @@ input[type="file"]::file-selector-button {
 }
 
 .gallery-container .content .title h2 {
-  margin-bottom: 1rem;
   font-size: 2.4rem;
   padding: 1rem 2rem;
   color: var(--grey);
   background-color: var(--light-grey);
+}
+
+.gallery-container .content .title h2:not(:last-child) {
+  margin-bottom: 0.5rem;
 }
