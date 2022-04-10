@@ -73,7 +73,7 @@ header .content {
 }
 
 header .content .title {
-  font-family: "Damion", cursive;
+  font-family: "Major Mono Display", monospace;
   color: inherit;
   text-decoration: none;
   font-size: 3.5rem;
