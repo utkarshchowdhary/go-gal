@@ -19,7 +19,7 @@ func NewPostgresDb(dsn string) (*sql.DB, error) {
 func DbInitSchema() error {
 	_, err := globalPostgresDb.Exec(
 		`
-		CREATE TABLE images (
+		CREATE TABLE IF NOT EXISTS images (
 			id varchar(255) PRIMARY KEY NOT NULL,
 			user_id varchar(255) NOT NULL,
 			description text NOT NULL,
@@ -28,7 +28,7 @@ func DbInitSchema() error {
 			created_at timestamp(0) NOT NULL
 		 );
 		 
-		 CREATE INDEX user_id_idx ON images (user_id);
+		 CREATE INDEX IF NOT EXISTS user_id_idx ON images (user_id);
 		`,
 	)
 	return err

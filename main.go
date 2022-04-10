@@ -24,13 +24,18 @@ func init() {
 
 	db, err := NewPostgresDb(os.Getenv("DATABASE_URL"))
 	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("Error establishing connection to database: %s", err))
 	}
 	globalPostgresDb = db
 
+	err = DbInitSchema()
+	if err != nil {
+		panic(fmt.Errorf("Error initializing database: %s", err))
+	}
+
 	imageStore, err := NewDbImageStore("./data/images")
 	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("Error creating image store: %s", err))
 	}
 	globalImageStore = imageStore
 }
