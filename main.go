@@ -59,6 +59,11 @@ func main() {
 	router.ServeFiles("/assets/*filepath", http.Dir("assets/"))
 	router.ServeFiles("/img/*filepath", http.Dir("data/images/"))
 
-	log.Println("Server starting at http://localhost:3000")
-	log.Fatal(http.ListenAndServe(":3000", router))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "80"
+	}
+
+	log.Println("Server starting at http://localhost:" + port)
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
