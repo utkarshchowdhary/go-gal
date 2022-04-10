@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -212,9 +211,7 @@ func HandleImageShow(w http.ResponseWriter, r *http.Request, p httprouter.Params
 	image, err := globalImageStore.Find(p.ByName("imageId"))
 	if err != nil {
 		if err == sql.ErrNoRows {
-			RenderTemplate(w, r, "images/show", map[string]interface{}{
-				"Error": errors.New("The request resource does not exist"),
-			})
+			RenderTemplate(w, r, "images/show", nil)
 			return
 		}
 		panic(err)
@@ -241,9 +238,7 @@ func HandleUserShow(w http.ResponseWriter, r *http.Request, p httprouter.Params)
 	}
 
 	if user == nil {
-		RenderTemplate(w, r, "users/show", map[string]interface{}{
-			"Error": errors.New("The request resource does not exist"),
-		})
+		RenderTemplate(w, r, "users/show", nil)
 		return
 	}
 

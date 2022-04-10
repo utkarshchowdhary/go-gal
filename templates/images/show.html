@@ -2,11 +2,7 @@
 <section class="image-container">
   <div class="content-container confine">
     <div class="content">
-      {{if .Error}}
-      <div class="message">
-        <h2>{{.Error}}</h2>
-      </div>
-      {{else}}
+      {{if and .Image .User}}
       <img src="{{.Image.StaticRoute}}" />
       <p>
         <span>By</span> <a href="{{.User.ImagesRoute}}">{{.User.Username}}</a>
@@ -14,7 +10,11 @@
       <p><span>Uploaded on</span> {{.Image.CreatedAt.Format "Jan 02, 2006"}}</p>
       {{if .Image.Description}}
       <p>{{.Image.Description}}</p>
-      {{end}} {{end}}
+      {{end}} {{else}}
+      <div class="message">
+        <h2>THE REQUESTED IMAGE DOES NOT EXIST</h2>
+      </div>
+      {{end}}
     </div>
   </div>
 </section>
