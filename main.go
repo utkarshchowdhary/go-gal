@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -21,7 +22,7 @@ func init() {
 	}
 	globalSessionStore = sessionStore
 
-	db, err := NewPostgresDb("postgres://hffpsmvimfhlyn:bdab916754ee8ec205a05452b234b22491936fbd49e438ba167f490a905403ef@ec2-54-172-175-251.compute-1.amazonaws.com:5432/d5304bgc04n6j5")
+	db, err := NewPostgresDb(os.Getenv("DATABASE_URL"))
 	if err != nil {
 		panic(err)
 	}
@@ -42,6 +43,8 @@ func main() {
 	router.POST("/sign-up", Recoverer(HandleUserCreate))
 	router.GET("/sign-in", Recoverer(HandleSessionNew))
 	router.POST("/sign-in", Recoverer(HandleSessionCreate))
+	router.GET("/image/:imageId", Recoverer(HandleImageShow))
+	router.GET("/user/:userId", Recoverer(HandleUserShow))
 	router.GET("/sign-out", Recoverer(Authenticator(HandleSessionDestroy)))
 	router.GET("/account", Recoverer(Authenticator(HandleUserEdit)))
 	router.POST("/account", Recoverer(Authenticator(HandleUserUpdate)))
@@ -49,6 +52,7 @@ func main() {
 	router.POST("/images/new", Recoverer(Authenticator(HandleImageCreate)))
 
 	router.ServeFiles("/assets/*filepath", http.Dir("assets/"))
+	router.ServeFiles("/img/*filepath", http.Dir("data/images/"))
 
 	log.Println("Server starting at http://localhost:3000")
 	log.Fatal(http.ListenAndServe(":3000", router))

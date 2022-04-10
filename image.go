@@ -105,3 +105,11 @@ func (image *Image) CreateFromFile(file multipart.File, headers *multipart.FileH
 
 	return globalImageStore.Save(image)
 }
+
+func (image *Image) StaticRoute() string {
+	return "/img/" + image.Location
+}
+
+func (image *Image) ShowRoute() string {
+	return "/image/" + image.Id
+}

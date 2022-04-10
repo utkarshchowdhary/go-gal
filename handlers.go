@@ -1,13 +1,22 @@
 package main
 
 import (
+	"database/sql"
+	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
 )
 
 func HandleHome(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	RenderTemplate(w, r, "index/home", nil)
+	images, err := globalImageStore.FindAll(0)
+	if err != nil {
+		panic(err)
+	}
+	RenderTemplate(w, r, "index/home", map[string]interface{}{
+		"Images": images,
+	})
 }
 
 func HandleUserNew(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -197,4 +206,54 @@ func HandleImageCreateFromFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(w, r, "/?flash=Image+uploaded+successfully", http.StatusFound)
+}
+
+func HandleImageShow(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	image, err := globalImageStore.Find(p.ByName("imageId"))
+	if err != nil {
+		if err == sql.ErrNoRows {
+			RenderTemplate(w, r, "images/show", map[string]interface{}{
+				"Error": errors.New("The request resource does not exist"),
+			})
+			return
+		}
+		panic(err)
+	}
+
+	user, err := globalUserStore.Find(image.UserId)
+	if err != nil {
+		panic(err)
+	}
+	if user == nil {
+		panic(fmt.Errorf("Could not find user %s", image.UserId))
+	}
+
+	RenderTemplate(w, r, "images/show", map[string]interface{}{
+		"Image": image,
+		"User":  user,
+	})
+}
+
+func HandleUserShow(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	user, err := globalUserStore.Find(p.ByName("userId"))
+	if err != nil {
+		panic(err)
+	}
+
+	if user == nil {
+		RenderTemplate(w, r, "users/show", map[string]interface{}{
+			"Error": errors.New("The request resource does not exist"),
+		})
+		return
+	}
+
+	images, err := globalImageStore.FindAllByUser(user, 0)
+	if err != nil {
+		panic(err)
+	}
+
+	RenderTemplate(w, r, "users/show", map[string]interface{}{
+		"Images": images,
+		"User":   user,
+	})
 }

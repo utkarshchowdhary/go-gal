@@ -1,5 +1,5 @@
 :root {
-  --light-grey: #e7d8c9;
+  --beige: #e7d8c9;
   --white-smoke: #ece4db;
   --light-tan: #fff1e6;
   --tan: #e6beae;
@@ -8,7 +8,8 @@
   --light-blue: #4cc9f0;
   --blue: #00bbf9;
   --red: #ff0a54;
-  --grey: #6d6875;
+  --light-grey: #b7cadb;
+  --grey: #555b6e;
   --charcoal: #2f3e46;
 }
 
@@ -35,8 +36,15 @@ body {
 
 .content-container {
   padding: 0 2.4rem;
-  max-width: 114rem;
   margin: 0 auto;
+}
+
+.widen {
+  max-width: 114rem;
+}
+
+.confine {
+  max-width: 57rem;
 }
 
 .flash {
@@ -93,11 +101,6 @@ header .content .btn-container .btn:not(:last-child) {
   padding: 0.5rem 0;
 }
 
-.form-container .content {
-  width: 50%;
-  margin: 0 auto;
-}
-
 .form-container .content .heading {
   font-size: 2rem;
   color: var(--grey);
@@ -144,7 +147,7 @@ header .content .btn-container .btn:not(:last-child) {
   font-size: 1.6rem;
   letter-spacing: 0.1rem;
   font-weight: bold;
-  border: 0.1rem solid var(--light-grey);
+  border: 0.1rem solid var(--beige);
   border-radius: 0.6rem;
   padding: 0.5rem;
 }
@@ -166,4 +169,125 @@ input[type="file"]::file-selector-button {
   border: 1px solid var(--turquoise);
   padding: 0.2rem 0.4rem;
   border-radius: 0.6rem;
+}
+
+.gallery-container {
+  margin-bottom: 3.2rem;
+  padding: 0.5rem 0;
+}
+
+.gallery-container .content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+}
+
+.gallery-container .content .message {
+  grid-column: 1/-1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gallery-container .content .message h2 {
+  font-size: 2.4rem;
+  padding: 1rem 2rem;
+  background-color: var(--light-tan);
+}
+
+.gallery-container .content .item {
+  color: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-container .content .item p {
+  position: absolute;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  background-color: var(--light-tan);
+  opacity: 0.7;
+}
+
+.gallery-container .content .item:hover p {
+  opacity: 0.9;
+}
+
+.gallery-container .content .item img {
+  width: 100%;
+  cursor: pointer;
+  transform: scale(1.1);
+  transition: all 0.5s ease;
+}
+
+.gallery-container .content .item:hover img {
+  cursor: pointer;
+  transform: scale(1.5);
+}
+
+.image-container {
+  margin-bottom: 3.2rem;
+  padding: 0.5rem 0;
+}
+
+.image-container .content .message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-container .content .message h2 {
+  margin-bottom: 1rem;
+  font-size: 2.4rem;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  background-color: var(--light-tan);
+}
+
+.image-container .content img {
+  width: 100%;
+  display: block;
+}
+
+.image-container .content p {
+  padding: 0.5rem 1rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  background-color: var(--light-tan);
+}
+
+.image-container .content p:not(:last-child) {
+  border-bottom: 0.1rem solid var(--tan);
+}
+
+.image-container .content p span {
+  color: var(--grey);
+}
+
+.image-container .content p a {
+  text-decoration: none;
+  color: var(--blue);
+}
+
+.image-container .content p a:hover {
+  color: var(--light-blue);
+}
+
+.gallery-container .content .title {
+  grid-column: 1/-1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gallery-container .content .title h2 {
+  margin-bottom: 1rem;
+  font-size: 2.4rem;
+  padding: 1rem 2rem;
+  color: var(--grey);
+  background-color: var(--light-grey);
 }

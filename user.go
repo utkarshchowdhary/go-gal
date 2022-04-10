@@ -15,6 +15,10 @@ type User struct {
 	HashedPassword string
 }
 
+func (user *User) ImagesRoute() string {
+	return "/user/" + user.Id
+}
+
 func NewUser(username, email, password string) (User, error) {
 	user := User{
 		Email:    email,

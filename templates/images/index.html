@@ -1,0 +1,20 @@
+{{define "images/index"}}
+<section class="gallery-container">
+  <div class="content-container widen">
+    <div class="content">
+      {{range .Images}}
+      <a href="{{.ShowRoute}}" class="item">
+        <img src="{{.StaticRoute}}" />
+        {{if .Description}}
+        <p>{{.Description}}</p>
+        {{end}}
+      </a>
+      {{else}}
+      <div class="message">
+        <h2>NO IMAGES AVAILABLE</h2>
+      </div>
+      {{end}}
+    </div>
+  </div>
+</section>
+{{end}}

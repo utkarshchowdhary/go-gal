@@ -5,10 +5,12 @@ import (
 	"os"
 )
 
+const pageSize = 25
+
 type ImageStore interface {
-	FindAll(limit, offset int) ([]Image, error)
+	FindAll(offset int) ([]Image, error)
 	Find(id string) (*Image, error)
-	FindAllByUser(user *User, limit, offset int) ([]Image, error)
+	FindAllByUser(user *User, offset int) ([]Image, error)
 	Save(image *Image) error
 }
 
@@ -29,7 +31,7 @@ func NewDbImageStore(filepath string) (ImageStore, error) {
 	}, nil
 }
 
-func (store *DbImageStore) FindAll(limit, offset int) ([]Image, error) {
+func (store *DbImageStore) FindAll(offset int) ([]Image, error) {
 	var images []Image
 
 	rows, err := store.db.Query(
@@ -40,7 +42,7 @@ func (store *DbImageStore) FindAll(limit, offset int) ([]Image, error) {
 		LIMIT $1
 		OFFSET $2
 		`,
-		limit,
+		pageSize,
 		offset,
 	)
 	if err != nil {
@@ -90,7 +92,7 @@ func (store *DbImageStore) Find(id string) (*Image, error) {
 	return &image, err
 }
 
-func (store *DbImageStore) FindAllByUser(user *User, limit, offset int) ([]Image, error) {
+func (store *DbImageStore) FindAllByUser(user *User, offset int) ([]Image, error) {
 	var images []Image
 
 	rows, err := store.db.Query(
@@ -103,7 +105,7 @@ func (store *DbImageStore) FindAllByUser(user *User, limit, offset int) ([]Image
 		OFFSET $3
 		`,
 		user.Id,
-		limit,
+		pageSize,
 		offset,
 	)
 	if err != nil {
