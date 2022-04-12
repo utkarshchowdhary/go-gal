@@ -293,3 +293,21 @@ input[type="file"]::file-selector-button {
 .gallery-container .content .title h2:not(:last-child) {
   margin-bottom: 0.5rem;
 }
+
+@media only screen and (max-width: 37.5em) {
+  .content-container {
+    padding: 0 1.4rem;
+  }
+
+  header {
+    padding: 1rem;
+  }
+
+  header .content {
+    flex-direction: column;
+  }
+
+  header .content .title {
+    margin-bottom: 1rem;
+  }
+}
