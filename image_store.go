@@ -66,6 +66,9 @@ func (store *DbImageStore) FindAll(offset int) ([]Image, error) {
 
 		images = append(images, image)
 	}
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
 
 	return images, nil
 }
@@ -128,6 +131,9 @@ func (store *DbImageStore) FindAllByUser(user *User, offset int) ([]Image, error
 		}
 
 		images = append(images, image)
+	}
+	if err = rows.Err(); err != nil {
+		return nil, err
 	}
 
 	return images, nil
