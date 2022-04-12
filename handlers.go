@@ -3,10 +3,16 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
 )
+
+func HandlePanic(w http.ResponseWriter, r *http.Request, err interface{}) {
+	log.Println(err)
+	http.Error(w, "Aaaah! Something went wrong", http.StatusInternalServerError)
+}
 
 func HandleHome(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	images, err := globalImageStore.FindAll(0)

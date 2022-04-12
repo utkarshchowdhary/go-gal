@@ -42,19 +42,20 @@ func init() {
 
 func main() {
 	router := httprouter.New()
+	router.PanicHandler = HandlePanic
 
-	router.GET("/", Recoverer(HandleHome))
-	router.GET("/sign-up", Recoverer(HandleUserNew))
-	router.POST("/sign-up", Recoverer(HandleUserCreate))
-	router.GET("/sign-in", Recoverer(HandleSessionNew))
-	router.POST("/sign-in", Recoverer(HandleSessionCreate))
-	router.GET("/image/:imageId", Recoverer(HandleImageShow))
-	router.GET("/user/:userId", Recoverer(HandleUserShow))
-	router.GET("/sign-out", Recoverer(Authenticator(HandleSessionDestroy)))
-	router.GET("/account", Recoverer(Authenticator(HandleUserEdit)))
-	router.POST("/account", Recoverer(Authenticator(HandleUserUpdate)))
-	router.GET("/images/new", Recoverer(Authenticator(HandleImageNew)))
-	router.POST("/images/new", Recoverer(Authenticator(HandleImageCreate)))
+	router.GET("/", HandleHome)
+	router.GET("/sign-up", HandleUserNew)
+	router.POST("/sign-up", HandleUserCreate)
+	router.GET("/sign-in", HandleSessionNew)
+	router.POST("/sign-in", HandleSessionCreate)
+	router.GET("/image/:imageId", HandleImageShow)
+	router.GET("/user/:userId", HandleUserShow)
+	router.GET("/sign-out", Authenticator(HandleSessionDestroy))
+	router.GET("/account", Authenticator(HandleUserEdit))
+	router.POST("/account", Authenticator(HandleUserUpdate))
+	router.GET("/images/new", Authenticator(HandleImageNew))
+	router.POST("/images/new", Authenticator(HandleImageCreate))
 
 	router.ServeFiles("/assets/*filepath", http.Dir("assets/"))
 	router.ServeFiles("/img/*filepath", http.Dir("data/images/"))
