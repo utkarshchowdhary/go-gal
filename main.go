@@ -57,8 +57,8 @@ func main() {
 	router.GET("/images/new", Authenticator(HandleImageNew))
 	router.POST("/images/new", Authenticator(HandleImageCreate))
 
-	router.ServeFiles("/assets/*filepath", http.Dir("assets/"))
-	router.ServeFiles("/img/*filepath", http.Dir("data/images/"))
+	router.GET("/assets/*filepath", Neuter(http.StripPrefix("/assets/", http.FileServer(http.Dir("assets/")))))
+	router.GET("/img/*filepath", Neuter(http.StripPrefix("/img/", http.FileServer(http.Dir("data/images/")))))
 
 	port := os.Getenv("PORT")
 	if port == "" {
