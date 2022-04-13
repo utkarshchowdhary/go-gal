@@ -290,6 +290,11 @@ input[type="file"]::file-selector-button {
   background-color: var(--light-grey);
 }
 
+.gallery-container .content .title h2:hover {
+  background-color: var(--white-smoke);
+  transform: rotate(-5deg);
+}
+
 .gallery-container .content .title h2:not(:last-child) {
   margin-bottom: 0.5rem;
 }
